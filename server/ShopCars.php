@@ -8,38 +8,38 @@ class ShopCars
         if (!$this->dbh = new \PDO('mysql:host='.HOST.';dbname='.DB, USER, PASSWORD))
         {
             throw new \Exception(' error DB ');
-        }/**
-        else {
-            $this->dbh->setAttribute( PDO::ATTR_EMULATE_PREPARES, false );
         }
-     * */
     }
 
-    /**
-     * @param string $sql
-     * @param array $data
-     * @return array
-     * @throws DbException
-     */
-    private function query(string $sql, array $data = [])
+    private function query( $sql,$data = [])
     {
         $sth = $this->dbh->prepare($sql);
         $result = $sth->execute($data);
         if (false === $result) {
-            throw new DbException('Ошибка запроса к БД');
+            throw new Exception(NO_CONNECT);
             die;
         }
         return $sth->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    /**
-     * @return array
-     * @throws DbException
-     */
+    public function execute(string $sql, array $data = [])
+    {
+        $sth = $this->dbh->prepare($sql);
+        $result = $sth->execute($data);
+        if (false === $result) {
+            throw new Exception(NO_CONNECT);
+            die;
+        }
+        return true;
+    }
+
+
+
     public function allCars()
     {
         $data = $this->query(
-           //"SELECT c.id, b.name, c.model FROM cars AS c INNER JOIN brands AS b ON c.id=b.id",
+            //"SELECT c.id, b.name, c.model FROM cars AS c INNER JOIN 
+            //brands AS b ON c.id=b.id",
             "SELECT id, brand, model FROM cars ",
             []
         );
@@ -54,26 +54,90 @@ class ShopCars
     public function idCars($id)
     {
         $data = $this->query(
-            "SELECT brand,model, year, engine, color, max_speed FROM cars WHERE id=:id",
+            "SELECT brand, model, year, engine, color, max_speed, price FROM cars WHERE id=:id",
             [':id' => $id]
         );
-        return $data[0] ?? false;
+        return $data[0];
+        // ?? false;
     }
 
-    // поиск по параметрам (в качестве параметров используется тот же комплекс type что и в предыдущем запросе.
-    // Поле «год выпуска» - обязательно),
 
-    public function getSerch($model='')
+    public function getSerch($arrParams)
     {
-        $sql = "SELECT * FROM cars WHERE model LIKE ".$model;
-        $result = $this->dbh->query($sql);
-        $res = $result->fetchAll(\PDO::FETCH_ASSOC);
-        var_dump($res);
+        if(empty($arrParams['year']) )
+        {
+            throw new Exception(NO_DATE);
+        }
 
+        $year = $this->dbh->quote($arrParams['year']);
+        $where = $year;
+        if (!empty($arrParams['brand']))
+        {
+            $brand = $this->dbh->quote($arrParams['brand']);
+            $where .= " AND brand=".$brand;
+        }
+        if (!empty($arrParams['model']))
+        {
+            $model = $this->dbh->quote($arrParams['model']);
+            $where .= " AND model=".$model;
+        }
+        if (!empty($arrParams['engine']))
+        {
+            $engine = $this->dbh->quote($arrParams['engine']);
+            $where .= " AND engine=".$engine;
+        }
+        if (!empty($arrParams['color']))
+        {
+            $color = $this->dbh->quote($arrParams['color']);
+            $where .= " AND color=".$color;
+        }
+        if (!empty($arrParams['max_speed']))
+        {
+            $max_speed = $this->dbh->quote($arrParams['max_speed']);
+            $where .= " AND max_speed=".$max_speed;
+        }
+        if (!empty($arrParams['price']))
+        {
+            $price = $this->dbh->quote($arrParams['price']);
+            $where .= " AND price=".$price;
+        }
 
-
+        $data = $this->query(
+            "SELECT brand, model, year, engine, color, max_speed, price FROM cars WHERE year=".$where,
+            []
+        );
+        return $data;
 
     }
 
+    public function getOrders($order)
+    {
+        if(!empty($order['id_cars'])&& !empty($order['first_name'])
+            && !empty($order['second_name']) && !empty($order['payment']))
+        {
+            $id_cars = $this->dbh->quote($order['id_cars']);
+            $first_name = $this->dbh->quote($order['first_name']);
+            $second_name = $this->dbh->quote($order['second_name']);
+            $payment = $this->dbh->quote($order['payment']);
+
+            $sql = "INSERT INTO orders (id_cars, first_name, second_name, payment)
+                VALUES ( $id_cars, $first_name, $second_name, $payment)";
+            $this->execute($sql);
+        }
+             
+    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
