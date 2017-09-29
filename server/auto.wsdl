@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:tns="http://soap.loc/server/.wsdl"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:xsd1="http://soap.loc/server/.xsd"
+             xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             name="soap_car" targetNamespace="http://soap.loc/server/.wsdl">
+    <!--  definition of datatypes  -->
+    <types>
+        <schema xmlns="http://www.w3.org/2000/10/XMLSchema" targetNamespace="http://soap.loc/server/.xsd">
+            <xsd:complexType name="ParamAuto">
+                <xsd:sequence>
+                <element name="id">
+                    <complexType>
+                        <all>
+                            <element name="value" type="int"/>
+                        </all>
+                    </complexType>
+                </element>
+                <element name="brand">
+                    <complexType>
+                        <all>
+                            <element name="value" type="string"/>
+                        </all>
+                    </complexType>
+                </element>
+                <element name="model">
+                    <complexType>
+                        <all>
+                            <element name="value" type="string"/>
+                        </all>
+                    </complexType>
+                </element>
+                <element name="year">
+                    <complexType>
+                        <all>
+                            <element name="value" type="int"/>
+                        </all>
+                    </complexType>
+                </element>
+                <element name="color">
+                    <complexType>
+                        <all>
+                            <element name="value" type="string"/>
+                        </all>
+                    </complexType>
+                </element>
+                <element name="price">
+                    <complexType>
+                        <all>
+                            <element name="value" type="int"/>
+                        </all>
+                    </complexType>
+                </element>
+                <element name="max_speed">
+                    <complexType>
+                        <all>
+                            <element name="value" type="int"/>
+                        </all>
+                    </complexType>
+                </element>
+                </xsd:sequence>
+            </xsd:complexType>
+        </schema>
+    </types>
+    <!--  response messages  -->
+    <!-- <message name='allCarsResponse'>
+        <part name='Result' type='xsd:array'/>
+    </message> -->
+    <message name="allCarsResponse">
+        <part name="Result" element="tns:allCarsResponse" />
+    </message>
+    <message name="idCarsResponse">
+        <part name="Result" type="tns:Param" />
+    </message>
+    <message name="getSerchResponse">
+        <part name="Result" type="tns:Param" />
+    </message>
+    <!--  request messages  -->
+    <message name="idCarsRequest">
+        <part name="Id" type="xsd:integer" />
+    </message>
+    <message name='getSerchResponse'>
+        <part name='Result' type='xsd:array'/>
+    </message>
+
+    <!--  server's services  -->
+    <portType name="SOAP_car">
+        <operation name="post_message">
+            <input message="tns:post_message"/>
+            <output message="tns:returns_resultcode"/>
+        </operation>
+        <operation name="get_number_of_messages">
+            <input message="tns:get_number_of_messages"/>
+            <output message="tns:returns_number"/>
+        </operation>
+        <operation name="retrieve_message">
+            <input message="tns:retrieve_message"/>
+            <output message="tns:returns_message"/>
+        </operation>
+        <operation name="retrieve_last_message">
+            <input message="tns:retrieve_last_message"/>
+            <output message="tns:returns_message"/>
+        </operation>
+    </portType>
+    <!--  server encoding  -->
+    <binding name="SOAP_car_webservices" type="tns:SOAP_car">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="post_message">
+            <soap:operation soapAction="urn:xmethods-delayed-quotes#post_message"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="get_number_of_messages">
+            <soap:operation soapAction="urn:xmethods-delayed-quotes#get_number_of_messages"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="retrieve_message">
+            <soap:operation soapAction="urn:xmethods-delayed-quotes#retrieve_message"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="retrieve_last_message">
+            <soap:operation soapAction="urn:xmethods-delayed-quotes#retrieve_last_message"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+    </binding>
+    <!--  access to service provider  -->
+    <service name="car">
+        <port name="car_0" binding="SOAP_car_webservices">
+            <soap:address location="http://soap.loc/server/ShopCars.php"/>
+        </port>
+    </service>
+</definitions>

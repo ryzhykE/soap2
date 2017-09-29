@@ -1,7 +1,7 @@
 <?php
 
 include_once ('config.php');
-include_once ('ShopCars.php');
+include_once('ShopCars.php');
 
 $result = new ShopCars();
 $allCar = $result->allCars();
@@ -43,3 +43,7 @@ $order = [
 
 
 
+//ini_set('soap.wsdl_cache_enabled', '0');
+//$obj = new SoapServer('auto.wsdl');
+//$obj->setClass('ShopCars');
+//$obj->handle();
