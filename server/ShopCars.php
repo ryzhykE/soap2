@@ -33,17 +33,14 @@ class ShopCars
         return true;
     }
 
-
-
     public function allCars()
     {
         $data = $this->query(
-            //"SELECT c.id, b.name, c.model FROM cars AS c INNER JOIN 
-            //brands AS b ON c.id=b.id",
             "SELECT id, brand, model FROM cars ",
             []
         );
-        return $data;
+        $resultJSON = json_encode($data);
+        return $resultJSON;
     }
 
     /**
@@ -57,13 +54,15 @@ class ShopCars
             "SELECT brand, model, year, engine, color, max_speed, price FROM cars WHERE id=:id",
             [':id' => $id]
         );
-        return $data[0];
-        // ?? false;
+        $resultJSON = json_encode($data[0]);
+        return $resultJSON;
     }
 
 
     public function getSerch($arrParams)
     {
+        $arrParams = json_decode($arrParams, true);
+
         if(empty($arrParams['year']) )
         {
             throw new Exception(NO_DATE);
@@ -106,8 +105,8 @@ class ShopCars
             "SELECT brand, model, year, engine, color, max_speed, price FROM cars WHERE year=".$where,
             []
         );
-        return $data;
-
+        $resultJSON = json_encode($data);
+        return $resultJSON;
     }
 
     public function getOrders($order)

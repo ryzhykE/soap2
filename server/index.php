@@ -1,8 +1,19 @@
 <?php
-
 include_once ('config.php');
 include_once('ShopCars.php');
 
+ini_set('soap.wsdl_cache_enabled', '0');
+$obj = new SoapServer('http://soap.loc/server/auto.wsdl');
+$obj->setClass('ShopCars');
+$obj->handle();
+
+
+
+
+
+
+
+/**
 $result = new ShopCars();
 $allCar = $result->allCars();
 
@@ -15,7 +26,6 @@ $idCar = $result->idCars(2);
 echo '<pre>';
 print_r($idCar);
 echo '</pre>';
-
 
 $params = [
     'year'=>'2015', 
@@ -40,10 +50,18 @@ $order = [
 
 //$myord = $result->getOrders($order);
 //print_r($myord);
+ *
+ * $order = [
+'id_cars'=>'1',
+'first_name'=>'Test_E',
+'second_name'=>'E_Test',
+'payment'=>'cash'
+];
+$result = new ShopCars();
+$myord = $result->getOrders($order);
+
+
+ */
 
 
 
-//ini_set('soap.wsdl_cache_enabled', '0');
-//$obj = new SoapServer('auto.wsdl');
-//$obj->setClass('ShopCars');
-//$obj->handle();
