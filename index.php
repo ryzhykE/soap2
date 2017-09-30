@@ -10,4 +10,4 @@ echo $client->idCars(2);
 echo '</br>';
 echo $client->getSerch('{"brand":"Toyota","year":"2015"}');
 echo '</br>';
-
+//echo $client->getOrders('{"id_cars":"1","first_name":"first_name","second_name":"second_name","payment":"cash"}');

@@ -86,6 +86,13 @@
         <part name='Result' type='xsd:string'/>
     </message>
 
+    <message name='getOrdersRequest'>
+        <part name='paramsArr' type='xsd:string'/>
+    </message>
+    <message name='getOrdersResponse'>
+        <part name='Result' type='xsd:string'/>
+    </message>
+
     <portType name='StockQuotePortType'>
         <operation name='allCars'>
             <input message='tns:allCarsRequest'/>
@@ -98,6 +105,10 @@
         <operation name='getSerch'>
             <input message='tns:getSerchRequest'/>
             <output message='tns:getSerchResponse'/>
+        </operation>
+        <operation name='getOrders'>
+            <input message='tns:getOrdersRequest'/>
+            <output message='tns:getOrdersResponse'/>
         </operation>
     </portType>
 
@@ -140,6 +151,18 @@
             </output>
         </operation>
 
+        <operation name='getOrders'>
+            <soap:operation soapAction='urn:xmethods-delayed-quotes#getOrders'/>
+            <input>
+                <soap:body use='encoded' namespace='urn:xmethods-delayed-quotes'
+                           encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/>
+            </input>
+            <output>
+                <soap:body use='encoded' namespace='urn:xmethods-delayed-quotes'
+                           encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/>
+            </output>
+        </operation>
+
 
     </binding>
 
@@ -149,3 +172,4 @@
         </port>
     </service>
 </definitions>
+

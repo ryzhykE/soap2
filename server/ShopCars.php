@@ -111,6 +111,7 @@ class ShopCars
 
     public function getOrders($order)
     {
+        $order = json_decode($order, true);
         if(!empty($order['id_cars'])&& !empty($order['first_name'])
             && !empty($order['second_name']) && !empty($order['payment']))
         {
