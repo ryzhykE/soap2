@@ -1,0 +1,11 @@
+RewriteEngine On
+
+Options +FollowSymlinks
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteBase /client/
+#RewriteBase /~user12/Public_html/SOAP/soap2/client/
+RewriteRule ^(.*)$ index.php [QSA]
+
+
