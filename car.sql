@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Окт 02 2017 г., 16:24
+-- Время создания: Окт 03 2017 г., 12:45
 -- Версия сервера: 5.7.11
 -- Версия PHP: 7.0.4
 
@@ -58,21 +58,11 @@ INSERT INTO `cars` (`id`, `brand`, `model`, `year`, `engine`, `color`, `price`, 
 
 CREATE TABLE IF NOT EXISTS `orders` (
   `id` int(11) NOT NULL,
-  `id_cars` int(11) DEFAULT NULL,
-  `first_name` varchar(255) DEFAULT NULL,
-  `second_name` varchar(255) DEFAULT NULL,
-  `payment` enum('credit_cart','cash') DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `orders`
---
-
-INSERT INTO `orders` (`id`, `id_cars`, `first_name`, `second_name`, `payment`) VALUES
-  (1, 1, 'Evgen', 'Evgen2', 'credit_cart'),
-  (2, 2, 'Test', 'Test2', 'cash'),
-  (3, 1, 'Test_E', 'E_Test', 'cash'),
-  (4, 1, 'first_name', 'second_name', 'cash');
+  `id_cars` int(11) NOT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `second_name` varchar(255) NOT NULL,
+  `payment` enum('credit_cart','cash') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Индексы сохранённых таблиц
@@ -103,7 +93,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

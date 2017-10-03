@@ -10,3 +10,4 @@ define('DB','soap_car');
 
 define('NO_CONNECT','No connect with DB ');
 define('NO_DATE', 'No date parametrs');
+
